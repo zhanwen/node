@@ -7,3 +7,28 @@ var int2 = function(str) {
 var int3 = function(str) {
 	return Number(str);
 }
+
+
+var Benchmark = requir('Benchmark');
+
+var number = '100';
+
+//添加测试
+var suite = new Benchmark.Suite;
+
+suite.add('+', function() {
+	int1(number);
+}).add('parseInt', function() {
+	int2(number);
+}).add('Number', function() {
+	int3(number);
+})
+//输出信息
+.on('cycle', function(event) {
+  console.log(String(event.target));
+})
+.on('complete', function() {
+  console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
+// run async
+.run({ 'async': true });
